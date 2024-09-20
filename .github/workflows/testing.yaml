@@ -45,13 +45,13 @@ jobs:
               run: flake8 -v .
             # Step to capture the tag that triggered the push event
             - name: Save tag name
-              run: echo "tag_name=${GITHUB_REF##*/}" >> env
+              run: mkdir shared_env && echo "tag_name=${GITHUB_REF##*/}" >> shared_env/data
             # Upload artifact
             - name: Upload build artifact
               uses: actions/upload-artifact@v4
               with:
                 name: shared-env
-                path: env
+                path: shared_env
 
     # Runs the tests
     # test:
