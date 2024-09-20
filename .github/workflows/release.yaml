@@ -3,7 +3,7 @@
 # 2. Publish to TestPyPI
 # 3. Publish to PyPI if the previous step is successful
 # 3. Sign and Upload to GitHub Release
-name: CI Release Pipeline 📦
+name: 📦 CI Release Pipeline
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -27,7 +27,7 @@ env:
 jobs:
     # Check and Build Distribution
     build:
-        name: Check and Build Distribution 🏗 ️
+        name: 🏗 Check and Build Distribution
         runs-on: ubuntu-latest
         if: github.repository == 'kikkomep/test-py-pipelines' && startsWith(github.ref, 'refs/tags/')
         steps:
@@ -113,7 +113,7 @@ jobs:
     # Sign and Upload to GitHub Release
     github-release:
       name: >-
-        Sign the Python 🐍 distribution 📦 with Sigstore
+        🖊️ Sign the Python 🐍 distribution 📦 with Sigstore
         and upload them to GitHub Release
       needs:
       - publish-to-testpypi
