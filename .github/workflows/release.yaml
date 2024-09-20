@@ -3,13 +3,13 @@
 # 2. Publish to TestPyPI
 # 3. Publish to PyPI if the previous step is successful
 # 3. Sign and Upload to GitHub Release
-name: 📦 CI Release Pipeline
+name: "📦 CI Pipeline 2: Release"
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
     workflow_run:
-        workflows: ["CI Testing Pipeline"]
+        workflows: ["🧪 CI Pipeline 1: Testing"]
         types:
             - completed
     push:
