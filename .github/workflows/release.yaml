@@ -77,10 +77,11 @@ jobs:
         permissions:
           id-token: write  # IMPORTANT: mandatory for trusted publishing
         steps:
-        - name: ⬇️ Download all the dists
+        - name: ⬇️ Download all the distribution packages
           uses: actions/download-artifact@v4
           with:
             name: python-package-distributions
+            path: dist/
         - name: 📦 Publish distribution to TestPyPI
           uses: pypa/gh-action-pypi-publish@release/v1
           with:
