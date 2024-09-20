@@ -26,11 +26,14 @@ jobs:
             - name: Download artifact from first workflow
               uses: actions/download-artifact@v4
               with:
-                name: testing-artifact
-
+                name: shared-env
             # Access the tag from the first workflow's outputs
             - name: Access the tag name
-              run: echo "The tag is ${{ github.event.workflow_run.outputs.tag_name }}"
+              run: cat env
+            - name: Set tag name as output
+              run: cat env >> $GITHUB_ENV
+            - name: Access the tag name
+              run: echo "The tag is ${{ env.tag_name }}"
     # Check and Build Distribution
     build:
         name: 🏗 Check and Build Distribution

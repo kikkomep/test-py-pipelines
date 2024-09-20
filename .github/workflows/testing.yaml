@@ -44,19 +44,14 @@ jobs:
             - name: Run checks
               run: flake8 -v .
             # Step to capture the tag that triggered the push event
-            - name: Get the tag name
-              id: get_tag
-              run: echo "tag_name=${GITHUB_REF##*/}" >> $GITHUB_ENV
-            - name: Set output for tag
-              id: set_output
-              run: echo "::set-output name=tag_name::${GITHUB_REF##*/}"
-
+            - name: Save tag name
+              run: echo "tag_name=${GITHUB_REF##*/}" >> env
             # Upload artifact
             - name: Upload build artifact
               uses: actions/upload-artifact@v4
               with:
-                name: testing-artifact
-                path: testing-artifact/
+                name: shared-env
+                path: env
 
     # Runs the tests
     # test:
