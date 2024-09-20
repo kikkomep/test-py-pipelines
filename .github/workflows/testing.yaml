@@ -51,7 +51,12 @@ jobs:
               id: set_output
               run: echo "::set-output name=tag_name::${GITHUB_REF##*/}"
 
-
+            # Upload artifact
+            - name: Upload build artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: testing-artifact
+                path: testing-artifact/
 
     # Runs the tests
     # test:

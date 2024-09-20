@@ -23,6 +23,11 @@ jobs:
         name: 🏗 Check and Build Distribution
         runs-on: ubuntu-latest
         steps:
+            - name: Download artifact from first workflow
+              uses: actions/download-artifact@v4
+              with:
+                name: testing-artifact
+
             # Access the tag from the first workflow's outputs
             - name: Access the tag name
               run: echo "The tag is ${{ github.event.workflow_run.outputs.tag_name }}"
