@@ -51,7 +51,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: shared-env
-                path: shared_env
+                path: shared_env/
 
     # Runs the tests
     # test:

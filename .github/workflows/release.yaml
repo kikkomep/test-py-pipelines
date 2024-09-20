@@ -27,7 +27,7 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: shared-env
-                path: shared_env
+                path: shared_env/
             # Access the tag from the first workflow's outputs
             - name: Access the tag name
               run: cat shared_env/data
