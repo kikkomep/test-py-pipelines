@@ -40,8 +40,6 @@ jobs:
             - name: 🚧 Set up Python Environment
               run: |
                 pip install --upgrade pip
-                python -m venv ${VENV_PATH}
-                source ${VENV_PATH}/bin/activate
                 pip install poetry
             - name: 📦 Install Package Dependencies
               run: poetry install --no-interaction --no-ansi
@@ -66,9 +64,7 @@ jobs:
                 path: |
                   dist/*.whl
                   dist/*.tar.gz
-            - name: 🚿 Deactivate virtual env
-              run: deactivate
-    
+
     # Publish to TestPyPI
     publish-to-testpypi:
         name: 📦 Publish to TestPyPI
