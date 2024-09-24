@@ -25,7 +25,7 @@ env:
 jobs:
     # Verifies pep8, pyflakes and circular complexity
     flake8:
-        name: Lint Python Code (Flake8)
+        name: Lint Python Code
         runs-on: ubuntu-latest
         strategy:
             matrix:
