@@ -132,7 +132,7 @@ jobs:
     # Sign and Upload to GitHub Release
     sign-packages:
         name: >-
-            🖊️ Sign the Python 🐍 distribution 📦 with Sigstore
+            🖊️ Sign the Python distribution with Sigstore
             and upload them to GitHub Release
         needs:
             - publish-to-testpypi
@@ -157,7 +157,7 @@ jobs:
             - name: 📦 Store the signed distribution packages
               uses: actions/upload-artifact@v4
               with:
-                  name: python-package-distributions
+                  name: python-package-distribution-signatures
                   path: dist/*.sigstore
     
     # Create GitHub Release
@@ -173,6 +173,11 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                   name: python-package-distributions
+                  path: dist/
+            - name: ⬇️ Download all the distribution signatures
+              uses: actions/download-artifact@v4
+              with:
+                  name: python-package-distribution-signatures
                   path: dist/
             - name: 🎉 Create GitHub Release
               env:
