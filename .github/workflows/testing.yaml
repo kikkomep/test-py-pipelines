@@ -27,9 +27,9 @@ jobs:
     flake8:
         name: Lint Python Code
         runs-on: ubuntu-latest
-        # strategy:
-        #     matrix:
-        #         python-version: ["3.11"]
+        strategy:
+            matrix:
+                python-version: ["3.11"]
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v4
