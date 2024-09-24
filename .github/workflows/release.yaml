@@ -33,7 +33,7 @@ jobs:
               id: wait-for-testing
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
-                checkName: Lint Python Code
+                checkName: 🚨 Lint Python Code
                 ref: ${{ github.sha }}
       
             - name: Do something with a passing build
