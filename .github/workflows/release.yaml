@@ -130,7 +130,7 @@ jobs:
     #       uses: pypa/gh-action-pypi-publish@release/v1
 
     # Sign and Upload to GitHub Release
-    github-release:
+    sign-packages:
         name: >-
             🖊️ Sign the Python 🐍 distribution 📦 with Sigstore
             and upload them to GitHub Release
@@ -154,6 +154,26 @@ jobs:
                   inputs: >-
                       ./dist/*.tar.gz
                       ./dist/*.whl
+            - name: 📦 Store the signed distribution packages
+              uses: actions/upload-artifact@v4
+              with:
+                  name: python-package-distributions
+                  path: dist/
+    
+    # Create GitHub Release
+    github_release:
+        name: 🎉 Release on GitHub
+        needs: sign-packages
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
+        steps:
+            - name: ⬇️ Download all the distribution packages
+              uses: actions/download-artifact@v4
+              with:
+                  name: python-package-distributions
+                  path: dist/
             - name: 🎉 Create GitHub Release
               env:
                   GITHUB_TOKEN: ${{ github.token }}
@@ -162,7 +182,7 @@ jobs:
                   '${{ github.ref_name }}'
                   --repo '${{ github.repository }}'
                   --generate-notes
-            - name: ⬆️ Upload artifact signatures to GitHub Release
+            - name: 📦 Upload artifacts to GitHub Release
               env:
                   GITHUB_TOKEN: ${{ github.token }}
               # Upload to GitHub Release using the `gh` CLI.
