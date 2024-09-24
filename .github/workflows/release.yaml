@@ -25,91 +25,89 @@ env:
     VENV_PATH: .venv
 
 jobs:
-    # Check and Build Distribution
-    build:
-        name: 🏗 Check and Build Distribution
+    # Wait for the testing pipeline to finish
+    wait-for-testing:
+        name: 🕒 Wait for Testing Pipeline
         runs-on: ubuntu-latest
-        if: ${{ github.repository == 'kikkomep/test-py-pipelines' }} # && github.event.workflow_run.conclusion == 'success' }}
+        if: ${{ github.repository == 'kikkomep/test-py-pipelines' }}
         steps:
-            - name: Wait for build to succeed
+            - name: Wait for testing pipeline to succeed
               uses: fountainhead/action-wait-for-check@v1.2.0
-              id: wait-for-build
+              id: wait-for-testing
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
                 checkName: Lint Python Code
                 ref: ${{ github.sha }}
       
             - name: Do something with a passing build
-              if: steps.wait-for-build.outputs.conclusion == 'success'
-              run: echo "Build passed"
+              if: steps.wait-for-testing.outputs.conclusion == 'success'
+              run: echo "Testing pipeline passed" && exit 0
       
             - name: Do something with a failing build
-              if: steps.wait-for-build.outputs.conclusion == 'failure'
-              run: echo "Build failed"
-
-            # - name: Wait for tests to succeed
-            #   uses: lewagon/wait-on-check-action@v1.3.4
-            #   with:
-            #     ref: ${{ github.ref }}
-            #     check-name: 'Lint Python Code (Flake8)'
-            #     repo-token: ${{ secrets.GITHUB_TOKEN }}
-            #     wait-interval: 10
-            # # Wait for the first workflow to finish
-            # # Access the tag from the first workflow's outputs
-            # - name: ⬇️ Checkout code
-            #   uses: actions/checkout@v4
-            # - name: 🐍 Set up Python
-            #   uses: actions/setup-python@v5
-            #   with:
-            #       python-version: "3.x"
-            # - name: 🚧 Set up Python Environment
-            #   run: |
-            #       pip install --upgrade pip
-            #       pip install poetry
-            # - name: 📦 Install Package Dependencies
-            #   run: poetry install --no-interaction --no-ansi
-            # - name: ✅ Check version
-            #   run: |
-            #       if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref_type }}" == "tag" ]; then
-            #         declared_version=$(poetry version -s)
-            #         echo "Checking tag '${{ github.ref }}' against package version $declared_version"
-            #         if [ "${{ github.ref }}" != "refs/tags/$declared_version" ]; then
-            #           echo "Tag '${{ github.ref }}' does not match the declared package version '$declared_version'"
-            #           exit 1
-            #         else
-            #           echo "Tag '${{ github.ref }}' matches the declared package version '$declared_version'"
-            #         fi
-            #       fi
-            # - name: 🏗️ Build a binary wheel and a source tarball
-            #   run: poetry build
-            # - name: 📦 Store the distribution packages
-            #   uses: actions/upload-artifact@v4
-            #   with:
-            #       name: python-package-distributions
-            #       path: |
-            #           dist/*.whl
-            #           dist/*.tar.gz
+              if: steps.wait-for-testing.outputs.conclusion == 'failure'
+              run: echo "Testing pipeline failed" && exit 1
+    # Check and Build Distribution
+    build:
+        name: 🏗 Check and Build Distribution
+        runs-on: ubuntu-latest
+        needs: wait-for-testing
+        if: ${{ github.repository == 'kikkomep/test-py-pipelines' }}
+        steps:
+            # Access the tag from the first workflow's outputs
+            - name: ⬇️ Checkout code
+              uses: actions/checkout@v4
+            - name: 🐍 Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.x"
+            - name: 🚧 Set up Python Environment
+              run: |
+                  pip install --upgrade pip
+                  pip install poetry
+            - name: 📦 Install Package Dependencies
+              run: poetry install --no-interaction --no-ansi
+            - name: ✅ Check version
+              run: |
+                  if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref_type }}" == "tag" ]; then
+                    declared_version=$(poetry version -s)
+                    echo "Checking tag '${{ github.ref }}' against package version $declared_version"
+                    if [ "${{ github.ref }}" != "refs/tags/$declared_version" ]; then
+                      echo "Tag '${{ github.ref }}' does not match the declared package version '$declared_version'"
+                      exit 1
+                    else
+                      echo "Tag '${{ github.ref }}' matches the declared package version '$declared_version'"
+                    fi
+                  fi
+            - name: 🏗️ Build a binary wheel and a source tarball
+              run: poetry build
+            - name: 📦 Store the distribution packages
+              uses: actions/upload-artifact@v4
+              with:
+                  name: python-package-distributions
+                  path: |
+                      dist/*.whl
+                      dist/*.tar.gz
 
     # Publish to TestPyPI
-    # publish-to-testpypi:
-    #     name: 📦 Publish to TestPyPI
-    #     runs-on: ubuntu-latest
-    #     needs: build
-    #     environment:
-    #         name: testpypi
-    #         url: https://test.pypi.org/p/test-py-pipelines
-    #     permissions:
-    #         id-token: write # IMPORTANT: mandatory for trusted publishing
-    #     steps:
-    #         - name: ⬇️ Download all the distribution packages
-    #           uses: actions/download-artifact@v4
-    #           with:
-    #               name: python-package-distributions
-    #               path: dist/
-    #         - name: 📦 Publish distribution to TestPyPI
-    #           uses: pypa/gh-action-pypi-publish@release/v1
-    #           with:
-    #               repository-url: https://test.pypi.org/legacy/
+    publish-to-testpypi:
+        name: 📦 Publish to TestPyPI
+        runs-on: ubuntu-latest
+        needs: build
+        environment:
+            name: testpypi
+            url: https://test.pypi.org/p/test-py-pipelines
+        permissions:
+            id-token: write # IMPORTANT: mandatory for trusted publishing
+        steps:
+            - name: ⬇️ Download all the distribution packages
+              uses: actions/download-artifact@v4
+              with:
+                  name: python-package-distributions
+                  path: dist/
+            - name: 📦 Publish distribution to TestPyPI
+              uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                  repository-url: https://test.pypi.org/legacy/
 
     # Publish to PyPI
     # publish:
@@ -131,46 +129,46 @@ jobs:
     #     - name: 📦 Publish distribution to PyPI
     #       uses: pypa/gh-action-pypi-publish@release/v1
 
-    # Sign and Upload to GitHub Release
-    # github-release:
-    #     name: >-
-    #         🖊️ Sign the Python 🐍 distribution 📦 with Sigstore
-    #         and upload them to GitHub Release
-    #     needs:
-    #         - publish-to-testpypi
-    #     runs-on: ubuntu-latest
+    Sign and Upload to GitHub Release
+    github-release:
+        name: >-
+            🖊️ Sign the Python 🐍 distribution 📦 with Sigstore
+            and upload them to GitHub Release
+        needs:
+            - publish-to-testpypi
+        runs-on: ubuntu-latest
 
-    #     permissions:
-    #         contents: write # IMPORTANT: mandatory for making GitHub Releases
-    #         id-token: write # IMPORTANT: mandatory for sigstore
+        permissions:
+            contents: write # IMPORTANT: mandatory for making GitHub Releases
+            id-token: write # IMPORTANT: mandatory for sigstore
 
-    #     steps:
-    #         - name: ⬇️ Download all the distribution packages
-    #           uses: actions/download-artifact@v4
-    #           with:
-    #               name: python-package-distributions
-    #               path: dist/
-    #         - name: 🖊️ Sign the dists with Sigstore
-    #           uses: sigstore/gh-action-sigstore-python@v2.1.1
-    #           with:
-    #               inputs: >-
-    #                   ./dist/*.tar.gz
-    #                   ./dist/*.whl
-    #         - name: 🎉 Create GitHub Release
-    #           env:
-    #               GITHUB_TOKEN: ${{ github.token }}
-    #           run: >-
-    #               gh release create
-    #               '${{ github.ref_name }}'
-    #               --repo '${{ github.repository }}'
-    #               --generate-notes
-    #         - name: ⬆️ Upload artifact signatures to GitHub Release
-    #           env:
-    #               GITHUB_TOKEN: ${{ github.token }}
-    #           # Upload to GitHub Release using the `gh` CLI.
-    #           # `dist/` contains the built packages, and the
-    #           # sigstore-produced signatures and certificates.
-    #           run: >-
-    #               gh release upload
-    #               '${{ github.ref_name }}' dist/**
-    #               --repo '${{ github.repository }}'
+        steps:
+            - name: ⬇️ Download all the distribution packages
+              uses: actions/download-artifact@v4
+              with:
+                  name: python-package-distributions
+                  path: dist/
+            - name: 🖊️ Sign the dists with Sigstore
+              uses: sigstore/gh-action-sigstore-python@v2.1.1
+              with:
+                  inputs: >-
+                      ./dist/*.tar.gz
+                      ./dist/*.whl
+            - name: 🎉 Create GitHub Release
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              run: >-
+                  gh release create
+                  '${{ github.ref_name }}'
+                  --repo '${{ github.repository }}'
+                  --generate-notes
+            - name: ⬆️ Upload artifact signatures to GitHub Release
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              # Upload to GitHub Release using the `gh` CLI.
+              # `dist/` contains the built packages, and the
+              # sigstore-produced signatures and certificates.
+              run: >-
+                  gh release upload
+                  '${{ github.ref_name }}' dist/**
+                  --repo '${{ github.repository }}'
