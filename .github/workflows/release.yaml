@@ -15,10 +15,10 @@ on:
             - "**"
             - "!docs/**"
             - "!examples/**"
-    workflow_run:
-        workflows: ["🧪 CI Pipeline 1 -- Testing"]
-        types: [completed]
-        branches: ["*.*.*"]
+    # workflow_run:
+    #     workflows: ["🧪 CI Pipeline 1 -- Testing"]
+    #     types: [completed]
+    #     branches: ["*.*.*"]
 
 env:
     TERM: xterm
@@ -31,6 +31,13 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.repository == 'kikkomep/test-py-pipelines' }} # && github.event.workflow_run.conclusion == 'success' }}
         steps:
+            - name: Wait for tests to succeed
+              uses: lewagon/wait-on-check-action@v1.3.4
+              with:
+                ref: ${{ github.ref }}
+                check-name: 'Run checks'
+                repo-token: ${{ secrets.GITHUB_TOKEN }}
+                wait-interval: 10
             # Wait for the first workflow to finish
             # Access the tag from the first workflow's outputs
             - name: ⬇️ Checkout code
