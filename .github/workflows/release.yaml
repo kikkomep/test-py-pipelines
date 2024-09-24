@@ -157,7 +157,7 @@ jobs:
             - name: 📦 Store the signed distribution packages
               uses: actions/upload-artifact@v4
               with:
-                  name: python-package-distribution-signatures
+                  name: python-package-signatures
                   path: dist/*.sigstore
     
     # Create GitHub Release
@@ -177,7 +177,7 @@ jobs:
             - name: ⬇️ Download all the distribution signatures
               uses: actions/download-artifact@v4
               with:
-                  name: python-package-distribution-signatures
+                  name: python-package-signatures
                   path: dist/
             - name: 🎉 Create GitHub Release
               env:
