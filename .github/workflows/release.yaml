@@ -2,7 +2,8 @@
 # 1. Check and Build Distribution
 # 2. Publish to TestPyPI
 # 3. Publish to PyPI if the previous step is successful
-# 3. Sign and Upload to GitHub Release
+# 4. Sign Distribution with Sigstore
+# 5. Create GitHub Release with the signed distribution
 name: 📦 CI Pipeline 2 -- Release
 
 # Controls when the action will run. Triggers the workflow on push or pull request
@@ -15,10 +16,6 @@ on:
             - "**"
             - "!docs/**"
             - "!examples/**"
-    # workflow_run:
-    #     workflows: ["🧪 CI Pipeline 1 -- Testing"]
-    #     types: [completed]
-    #     branches: ["*.*.*"]
 
 env:
     TERM: xterm
