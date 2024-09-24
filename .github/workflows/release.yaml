@@ -36,7 +36,7 @@ jobs:
               id: wait-for-build
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
-                checkName: flake8
+                checkName: Lint Python Code
                 ref: ${{ github.sha }}
       
             - name: Do something with a passing build
