@@ -35,7 +35,7 @@ jobs:
               uses: lewagon/wait-on-check-action@v1.3.4
               with:
                 ref: ${{ github.ref }}
-                check-name: 'Run checks'
+                check-name: 'Lint Python Code (Flake8)'
                 repo-token: ${{ secrets.GITHUB_TOKEN }}
                 wait-interval: 10
             # Wait for the first workflow to finish
