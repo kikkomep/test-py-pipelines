@@ -14,11 +14,6 @@ classifiers = [
     "Topic :: Software Development :: Testing :: Validation",
 ]
 
-[[tool.poetry.source]]
-name = "foo"
-url = "https://github.com/kikkomep/test-py-pipelines.git"
-priority = "primary"
-
 
 [tool.poetry.dependencies]
 python = "^3.10"
