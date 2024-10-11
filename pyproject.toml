@@ -10,14 +10,22 @@ repository = "https://github.com/kikkomep/test-py-pipelines.git"
 packages = [{ include = "test_py_pipelines", from = "." }]
 documentation = "https://github.com/kikkomep/test-py-pipelines.git/docs"
 classifiers = [
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "License :: OSI Approved :: MIT License",
     "Development Status :: 4 - Beta",
+    "Natural Language :: English",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "Topic :: Internet :: WWW/HTTP :: Semantic Web"
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Utilities",
+    "Environment :: Console",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: Apache Software License",
 ]
 
 [tool.poetry.dependencies]
