@@ -11,7 +11,7 @@ maintainers = [{ name = "Marco Enrico Piras", email = "kikkomep@crs4.it" }]
 description = "This is a test package."
 readme = "README.md"
 license = { file = "LICENSE.txt" }
-keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
+keywords = ["test", "example"]
 classifiers = ["Development Status :: 4 - Beta", "Programming Language :: Python"]
 
 [project.urls]
