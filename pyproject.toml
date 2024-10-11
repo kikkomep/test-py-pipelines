@@ -7,13 +7,13 @@ readme = "README.md"
 license = "MIT"
 keywords = ["test", "pipelines"]
 repository = "https://github.com/kikkomep/test-py-pipelines.git"
+packages = [{ include = "test_py_pipelines", from = "." }]
 documentation = "https://github.com/kikkomep/test-py-pipelines.git/docs"
 classifiers = [
     "Topic :: Software Development :: Build Tools",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Testing :: Validation",
 ]
-
 
 [tool.poetry.dependencies]
 python = "^3.10"
