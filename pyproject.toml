@@ -1,26 +1,19 @@
-[project]
-name = "spam-eggs"
-version = "0.2.0"
-dependencies = ["httpx", "gidgethub[httpx]>4.0.0", "django>2.1; os_name != 'nt'", "django>2.0; os_name == 'nt'"]
-requires-python = ">=3.10"
-authors = [
-    { name = "Marco Enrico Piras", email = "kikkomep@crs4.it" },
-    { name = "kikkomep", email = "marcoenrico.piras@crs4.it" },
-]
-maintainers = [{ name = "Marco Enrico Piras", email = "kikkomep@crs4.it" }]
-description = "This is a test package."
+[tool.poetry]
+name = "test-py-pipelines"
+version = "0.1.2"
+description = ""
+authors = ["Marco Enrico Piras <kikkomep@crs4.it>"]
 readme = "README.md"
-license = { file = "LICENSE.txt" }
-keywords = ["test", "example"]
-classifiers = ["Development Status :: 4 - Beta", "Programming Language :: Python"]
+license = "MIT"
+keywords = ["test", "pipelines"]
 
-[project.urls]
-Homepage = "https://github.com/kikkomep/test-py-pipelines/README.md"
-Documentation = "https://github.com/kikkomep/test-py-pipelines/README.md"
-Repository = "https://github.com/kikkomep/test-py-pipelines"
-"Bug Tracker" = "https://github.com/kikkomep/test-py-pipelines/issues"
-Changelog = "https://github.com/kikkomep/test-py-pipelines/blob/master/CHANGELOG.md"
+[[tool.poetry.source]]
+name = "foo"
+url = "https://github.com/kikkomep/test-py-pipelines.git"
+priority = "primary"
 
+[tool.poetry.dependencies]
+python = "^3.10"
 
 [build-system]
 requires = ["poetry-core"]
