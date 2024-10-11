@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "test-py-pipelines"
-version = "0.2.71"
+version = "0.2.72"
 description = "A test package for testing Python pipelines"
 authors = ["Marco Enrico Piras <kikkomep@crs4.it>"]
 readme = "README.md"
@@ -9,11 +9,13 @@ keywords = ["test", "pipelines"]
 repository = "https://github.com/kikkomep/test-py-pipelines.git"
 packages = [{ include = "test_py_pipelines", from = "." }]
 documentation = "https://github.com/kikkomep/test-py-pipelines.git/docs"
-# classifiers = [
-#     "Topic :: Software Development :: Build Tools",
-#     "Topic :: Software Development :: Libraries :: Python Modules",
-#     "Topic :: Software Development :: Testing :: Validation",
-# ]
+classifiers = [
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: Implementation",
+    "Natural Language :: English",
+    "Topic :: System :: Shells",
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
