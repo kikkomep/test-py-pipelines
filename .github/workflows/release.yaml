@@ -15,10 +15,10 @@ on:
             - "**"
             - "!docs/**"
             - "!examples/**"
-    workflow_run:
-        workflows: ["🧪 CI Pipeline 1 -- Testing"]
-        types: [completed]
-        branches: ["*.*.*"]
+    # workflow_run:
+    #     workflows: ["🧪 CI Pipeline 1 -- Testing"]
+    #     types: [completed]
+    #     branches: ["*.*.*"]
 
 env:
     TERM: xterm
