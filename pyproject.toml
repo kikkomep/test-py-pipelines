@@ -11,12 +11,14 @@ documentation = "https://github.com/kikkomep/test-py-pipelines.git/docs"
 classifiers = [
     "Topic :: Software Development :: Build Tools",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Testing :: Validation"
+    "Topic :: Software Development :: Testing :: Validation",
 ]
 
 [[tool.poetry.source]]
 name = "foo"
+url = "https://github.com/kikkomep/test-py-pipelines.git"
 priority = "primary"
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
