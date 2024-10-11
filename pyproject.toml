@@ -6,7 +6,7 @@ authors = ["Marco Enrico Piras <kikkomep@crs4.it>"]
 readme = "README.md"
 license = "MIT"
 keywords = ["test", "pipelines"]
-repository = "https://github.com/kikkomep/test-py-pipelines.git"
+# repository = "https://github.com/kikkomep/test-py-pipelines.git"
 packages = [{ include = "test_py_pipelines", from = "." }]
 documentation = "https://github.com/kikkomep/test-py-pipelines.git/docs"
 classifiers = [
